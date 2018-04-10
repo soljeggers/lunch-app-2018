@@ -1,5 +1,7 @@
 package controllers
 
+import java.util.Calendar
+
 import org.scalatestplus.play.PlaySpec
 import org.scalatestplus.play.guice.GuiceOneAppPerTest
 import play.api.test.FakeRequest
@@ -40,10 +42,61 @@ class WelcomeControllerSpec extends PlaySpec with GuiceOneAppPerTest {
   }
 }
 
+object FakeMorningCalendar extends Calendar {
+
+  override def get(field: Int): Int = 11
+  override def computeFields(): Unit = ???
+  override def getMinimum(field: Int): Int = ???
+  override def add(field: Int, amount: Int): Unit = ???
+  override def getLeastMaximum(field: Int): Int = ???
+
+  override def getGreatestMinimum(field: Int): Int = ???
+
+  override def roll(field: Int, up: Boolean): Unit = ???
+
+  override def getMaximum(field: Int): Int = ???
+
+  override def computeTime(): Unit = ???
+}
+
+object FakeAfternoonCalendar extends Calendar {
+
+  override def get(field: Int): Int = 13
+
+  override def computeFields(): Unit = ???
+
+  override def getMinimum(field: Int): Int = ???
+
+  override def add(field: Int, amount: Int): Unit = ???
+
+  override def getLeastMaximum(field: Int): Int = ???
+
+  override def getGreatestMinimum(field: Int): Int = ???
+
+  override def roll(field: Int, up: Boolean): Unit = ???
+
+  override def getMaximum(field: Int): Int = ???
+
+  override def computeTime(): Unit = ???
+}
+
+
 object FakeMorningGreeter extends GreetingService {
-  override def greeting: String = "Good morning!"
+  override def greeting: String = {
+    val currentHour = FakeMorningCalendar.get(Calendar.HOUR_OF_DAY)
+    if (currentHour < 12)
+      "Good morning!"
+    else
+      "Good afternoon!"
+  }
 }
 
 object FakeAfternoonGreeter extends GreetingService {
-  override def greeting: String = "Good afternoon!"
+  override def greeting: String = {
+    val currentHour = FakeAfternoonCalendar.get(Calendar.HOUR_OF_DAY)
+    if (currentHour < 12)
+      "Good morning!"
+    else
+      "Good afternoon!"
+  }
 }
