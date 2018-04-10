@@ -4,6 +4,7 @@ import org.scalatestplus.play.PlaySpec
 import org.scalatestplus.play.guice.GuiceOneAppPerTest
 import play.api.test.FakeRequest
 import play.api.test.Helpers._
+import services.GreetingService
 
 class WelcomeControllerSpec extends PlaySpec with GuiceOneAppPerTest {
 
