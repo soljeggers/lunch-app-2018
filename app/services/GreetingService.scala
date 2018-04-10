@@ -1,10 +1,12 @@
 package services
 
+import com.google.inject.ImplementedBy
+
 class RealGreetingService extends GreetingService {
-  override def greeting: String = ???
+  def greeting: String = "Alright!"
 }
 
+@ImplementedBy(classOf[RealGreetingService])
 trait GreetingService {
-  def greeting: String = ???
-
+  def greeting: String
 }
