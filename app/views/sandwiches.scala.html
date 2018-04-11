@@ -1,7 +1,11 @@
-@()
+@(sandwiches: List[Sandwich])
 
 @main("Sandwiches") {
     <h1>Have a look at today's sandwiches</h1>
-
-    <p>Sorry, we're sold out</p>
+    @if(sandwiches.isEmpty) {
+        <p>Sorry, we're sold out</p>
+    } else {
+    <p>Please choose a sandwich</p>
+    <p>@sandwiches.head.name, @sandwiches.head.description £@sandwiches.head.price</p>
+    }
 }

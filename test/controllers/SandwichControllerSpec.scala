@@ -1,9 +1,11 @@
 package controllers
 
+import models.Sandwich
 import org.scalatestplus.play.PlaySpec
 import org.scalatestplus.play.guice.GuiceOneAppPerTest
 import play.api.test.FakeRequest
 import play.api.test.Helpers.{status, _}
+import services.SandwichService
 
 class SandwichControllerSpec extends PlaySpec with GuiceOneAppPerTest {
 
@@ -37,4 +39,12 @@ class SandwichControllerSpec extends PlaySpec with GuiceOneAppPerTest {
       contentAsString(result) must include ("£1.55")
     }
   }
+}
+
+object FakeSingleSandwichService extends SandwichService {
+  override def sandwiches(): List[Sandwich] = List(Sandwich("Ham", 1.55, "Very tasty"))
+}
+
+object FakeNoSandwichService extends SandwichService {
+  override def sandwiches(): List[Sandwich] = List()
 }
