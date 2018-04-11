@@ -38,7 +38,28 @@ class SandwichControllerSpec extends PlaySpec with GuiceOneAppPerTest {
       contentAsString(result) must include ("Very tasty")
       contentAsString(result) must include ("£1.55")
     }
+    "show multiple sandwiches when more than one is available" in {
+      val controller = new SandwichController(FakeMultiSandwichService)
+      val result = controller.sandwiches().apply(FakeRequest())
+      contentAsString(result) must not include("<p>Sorry, we're sold out</p>")
+      contentAsString(result) must include ("Ham")
+      contentAsString(result) must include ("Very tasty")
+      contentAsString(result) must include ("£1.55")
+      contentAsString(result) must include ("Cheese")
+      contentAsString(result) must include ("Cheese tastic!")
+      contentAsString(result) must include ("£2.55")
+      contentAsString(result) must include ("Egg")
+      contentAsString(result) must include ("Eggy Breath Bruv!")
+      contentAsString(result) must include ("£1.15")
+    }
   }
+}
+
+object FakeMultiSandwichService extends SandwichService {
+  override def sandwiches(): List[Sandwich] = List(ham, cheese, egg)
+  val ham = Sandwich("Ham", 1.55, "Very tasty")
+  val cheese = Sandwich("Cheese", 2.55, "Cheese tastic!")
+  val egg = Sandwich("Egg", 1.15, "Eggy Breath Bruv!")
 }
 
 object FakeSingleSandwichService extends SandwichService {

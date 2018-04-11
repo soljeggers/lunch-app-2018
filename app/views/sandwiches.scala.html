@@ -6,6 +6,8 @@
         <p>Sorry, we're sold out</p>
     } else {
     <p>Please choose a sandwich</p>
-    <p>@sandwiches.head.name, @sandwiches.head.description £@sandwiches.head.price</p>
+        @for(sarnie <- sandwiches) {
+    <p>@sarnie.name, @sarnie.description £@sarnie.price</p>
     }
+}
 }
