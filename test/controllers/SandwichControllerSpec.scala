@@ -18,7 +18,7 @@ class SandwichControllerSpec extends PlaySpec with GuiceOneAppPerTest {
       status(home) mustBe OK
       contentType(home) mustBe Some("text/html")
       contentAsString(home) must include("<title>Sandwiches</title>")
-      contentAsString(home) must include("<h1>Have a look at today's sandwiches</h1>")
+      contentAsString(home) must include("<h1>Fancy a sarnie mate?</h1>")
     }
 
     "give a helpful message when sold out" in {
@@ -26,12 +26,9 @@ class SandwichControllerSpec extends PlaySpec with GuiceOneAppPerTest {
       val result = controller.sandwiches().apply(FakeRequest())
       contentAsString(result) must include ("<p>Sorry, we're sold out</p>")
     }
-
-
     "show a single sandwich when only one is available" in {
       val controller = new SandwichController(FakeSingleSandwichService)
       val result = controller.sandwiches().apply(FakeRequest())
-
       contentAsString(result) must not include("<p>Sorry, we're sold out</p>")
       contentAsString(result) must include ("Please choose a sandwich")
       contentAsString(result) must include ("Ham")
