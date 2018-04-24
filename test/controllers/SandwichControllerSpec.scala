@@ -3,20 +3,24 @@ package controllers
 import models.Sandwich
 import org.scalatestplus.play.PlaySpec
 import org.scalatestplus.play.guice.GuiceOneAppPerTest
+import play.api.inject.guice.GuiceApplicationBuilder
 import play.api.test.FakeRequest
 import play.api.test.Helpers.{status, _}
 import services.SandwichService
 import play.api.libs.concurrent.Execution.Implicits.defaultContext
-
 import scala.concurrent.Future
+import play.api.inject.bind
+
 
 class SandwichControllerSpec extends PlaySpec with GuiceOneAppPerTest {
+
+  val application = new GuiceApplicationBuilder().overrides(bind[SandwichService].to[IntergrationSandwichService]).build
 
   "SandwichController" should {
 
     "Have some information and be accessible at the correct route" in {
       val request = FakeRequest(GET, "/sandwiches").withHeaders("Host" -> "localhost")
-      val home = route(app, request).get
+      val home = route(application, request).get
 
       status(home) mustBe OK
       contentType(home) mustBe Some("text/html")
@@ -67,5 +71,9 @@ object FakeSingleSandwichService extends SandwichService {
 }
 
 object FakeNoSandwichService extends SandwichService {
+  override def sandwiches(): Future[List[Sandwich]] = Future(List())
+}
+
+class IntergrationSandwichService extends SandwichService {
   override def sandwiches(): Future[List[Sandwich]] = Future(List())
 }
